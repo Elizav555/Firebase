@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "376601558991",
+    "project_id": "shoppinglist-ea438",
+    "storage_bucket": "shoppinglist-ea438.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376601558991:android:6150a1e6ddd3d9799c9cba",
+        "android_client_info": {
+          "package_name": "com.example.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376601558991-pbhh2a28jut38gmohtbm43ne6q97shf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlgv7cDmBZVxO0-VPB_91nbghszzpuWvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376601558991-pbhh2a28jut38gmohtbm43ne6q97shf4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "376601558991-a9pa5kptu3ts3e7abgbci8l22ssic4oq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebase"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

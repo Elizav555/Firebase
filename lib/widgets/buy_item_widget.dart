@@ -1,12 +1,11 @@
 import 'package:firebase/model/buy_item.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../state/app_notifier.dart';
 
 class BuyItemWidget extends StatelessWidget {
-  const BuyItemWidget({Key? key, required this.item}) : super(key: key);
+  const BuyItemWidget({Key? key, required this.item, required this.onChecked})
+      : super(key: key);
   final BuyItem item;
+  final Function(bool?, BuyItem) onChecked;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +18,7 @@ class BuyItemWidget extends StatelessWidget {
         trailing: Checkbox(
           value: item.isPurchased,
           onChanged: (isChecked) {
-            if (isChecked != null) {
-              context.read<AppStateNotifier>().checkItem(item.id, isChecked);
-            }
+            onChecked(isChecked, item);
           },
         ),
       ),

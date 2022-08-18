@@ -6,7 +6,7 @@ import 'app_state.dart';
 class AppStateNotifier with ChangeNotifier {
   AppState state = AppState.empty();
 
-  void setState({Map<String, BuyItem> newList = const {}}) {
+  void setState({List<BuyItem> newList = const []}) {
     state = AppState(shoppingList: newList);
     notifyListeners();
   }
