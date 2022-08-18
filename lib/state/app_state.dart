@@ -1,17 +1,32 @@
 import 'package:firebase/model/buy_item.dart';
 
+import '../database/db_interactor.dart';
+
+// class AppState {
+//   List<BuyItem> shoppingList = [];
+//
+//   AppState.empty();
+//
+//   AppState({required this.shoppingList});
+//
+//   void addItem(BuyItem newItem) {
+//     shoppingList.add(newItem);
+//   }
+//
+//   void checkItem(String id, bool isChecked) {
+//     shoppingList.firstWhere((item) => item.id == id).isPurchased = isChecked;
+//   }
+// }
+
 class AppState {
-  List<BuyItem> shoppingList = [];
+  final _dbInteractor = ShoppingDBInteractor();
 
-  AppState.empty();
-
-  AppState({required this.shoppingList});
-
-  void addItem(BuyItem newItem) {
-    shoppingList.add(newItem);
+  Future<BuyItem> addItem(int index) async {
+    return await _dbInteractor.addBuyItem("NewItem$index");
   }
 
-  void checkItem(String id, bool isChecked) {
-    shoppingList.firstWhere((item) => item.id == id).isPurchased = isChecked;
-  }
+  Stream<List<BuyItem>> getListStream() => _dbInteractor.getListStream();
+
+  Future<void> updateItem(String id, bool isChecked) =>
+      _dbInteractor.updateBuyItem(id, {"isPurchased": isChecked});
 }

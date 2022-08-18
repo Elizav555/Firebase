@@ -5,7 +5,7 @@ class BuyItemWidget extends StatelessWidget {
   const BuyItemWidget({Key? key, required this.item, required this.onChecked})
       : super(key: key);
   final BuyItem item;
-  final Function(bool?, BuyItem) onChecked;
+  final Function(String, bool) onChecked;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,9 @@ class BuyItemWidget extends StatelessWidget {
         trailing: Checkbox(
           value: item.isPurchased,
           onChanged: (isChecked) {
-            onChecked(isChecked, item);
+            if (isChecked != null) {
+              onChecked(item.id, isChecked);
+            }
           },
         ),
       ),

@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: ListPage(title: 'Shopping list'),
+        home: const ListPage(title: 'Shopping list'),
       ),
     );
   }
