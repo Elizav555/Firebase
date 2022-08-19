@@ -37,6 +37,7 @@ dependencies:
   firebase_core: ^1.20.1
   cloud_firestore: ^3.4.4
   firebase_storage: ^10.3.6
+  firebase_auth: ^3.6.4
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   flutter_bloc: ^8.0.1
+  github_sign_in: ^0.0.4
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
