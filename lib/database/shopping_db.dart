@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/utils/sort_filter_types.dart';
 
 import '../utils/pair.dart';
 import 'buy_item_db.dart';
@@ -13,6 +14,9 @@ abstract class ShoppingDB {
   Future<void> updateBuyItem(String id, Map<String, dynamic> changes);
 
   Future<Pair<String, BuyItemDB>> getBuyItem(String id);
+
+  Future<List<Pair<String, BuyItemDB>>> filterSortItems(
+      FilterType filterType, SortType sortType);
 }
 
 class ShoppingDBImpl extends ShoppingDB {
@@ -49,5 +53,22 @@ class ShoppingDBImpl extends ShoppingDB {
   Future<Pair<String, BuyItemDB>> getBuyItem(String id) async {
     final snapshot = await _shoppingListCollection.doc(id).get();
     return Pair<String, BuyItemDB>(key: snapshot.id, value: snapshot.data()!);
+  }
+
+  @override
+  Future<List<Pair<String, BuyItemDB>>> filterSortItems(
+      FilterType filterType, SortType sortType) {
+    Query<BuyItemDB>? resultCollection = _shoppingListCollection.orderBy('name',
+        descending: sortType == SortType.descending);
+    if (filterType != FilterType.none) {
+      resultCollection = resultCollection.where('isPurchased',
+          isEqualTo: filterType == FilterType.purchased);
+    } else {
+      resultCollection = resultCollection.where(
+        'isPurchased',
+      );
+    }
+    return resultCollection.get().then((value) =>
+        value.docs.map((e) => Pair(key: e.id, value: e.data())).toList());
   }
 }
