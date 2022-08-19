@@ -20,9 +20,10 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.userChanges(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return ElevatedButton(
-                  onPressed: () => signIn(context),
-                  child: const Center(child: Text('Login')));
+              return Center(
+                  child: ElevatedButton(
+                      onPressed: () => signIn(context),
+                      child: const Text('Login')));
             } else {
               return ListPage(title: 'Shopping list');
             }
