@@ -1,13 +1,13 @@
 import 'package:firebase/database/shopping_db.dart';
-import 'package:firebase/widgets/buy_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../state/app_bloc.dart';
-import '../state/app_events.dart';
-import '../state/app_state.dart';
-import '../storage/storage.dart';
-import '../utils/sort_filter_types.dart';
+import '../../state/app_bloc.dart';
+import '../../state/app_events.dart';
+import '../../state/app_state.dart';
+import '../../storage/storage.dart';
+import '../../utils/sort_filter_types.dart';
+import '../widgets/buy_item_widget.dart';
 
 class ListPage extends StatelessWidget {
   ListPage({Key? key, required this.title}) : super(key: key);
