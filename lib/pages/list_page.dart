@@ -1,85 +1,80 @@
-import 'dart:math';
-
-import 'package:firebase/model/buy_item.dart';
-import 'package:firebase/state/app_notifier.dart';
+import 'package:firebase/database/shopping_db.dart';
 import 'package:firebase/widgets/buy_item_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListPage extends StatefulWidget {
-  const ListPage({Key? key, required this.title}) : super(key: key);
+import '../state/app_bloc.dart';
+import '../state/app_events.dart';
+import '../state/app_state.dart';
+
+class ListPage extends StatelessWidget {
+  ListPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
-
-  @override
-  State<StatefulWidget> createState() => ListPageState();
-}
-
-class ListPageState extends State<ListPage> {
-  @override
-  void initState() {
-    context.read<AppStateNotifier>().getBackgroundImageURL();
-    super.initState();
-  }
+  final TextEditingController _inputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AppStateNotifier>().state;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-              // child: ListView.builder(
-              //   itemBuilder: (BuildContext context, int index) {
-            //     Function(bool?, BuyItem) onChecked =
-            //         (bool? isChecked, BuyItem item) {
-            //       if (isChecked != null) {
-            //         context
-            //             .read<AppStateNotifier>()
-            //             .checkItem(item.id, isChecked);
-              //         _dbInteractor
-              //             .updateBuyItem(item.id, {"isPurchased": isChecked});
-              //       }
-              //     };
-              //     return BuyItemWidget(
-              //         item: state.shoppingList.elementAt(index),
-              //         onChecked: onChecked);
-              //   },
-              //   itemCount: state.shoppingList.length,
-              // ),
-              child: Container(
-            decoration: BoxDecoration(
-                image: state.backgroundImageURL != null
-                    ? DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(state.backgroundImageURL!))
-                    : null),
-            child: StreamBuilder<List<BuyItem>>(
-                stream: state.getListStream(),
-                builder: (context, snapshot) {
-                  return ListView(
-                    children: snapshot.hasData
-                        ? snapshot.data!
-                            .map((item) => BuyItemWidget(
-                                item: item,
-                                onChecked: (String id, bool isChecked) =>
-                                    state.updateItem(id, isChecked)))
-                            .toList()
-                        : <Widget>[],
-                  );
-                }),
-          )),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          state.addItem(Random().nextInt(100));
-        },
-        tooltip: 'Add new BuyItem',
-        child: const Icon(Icons.add),
+    return RepositoryProvider<ShoppingDB>(
+      create: (_) => ShoppingDBImpl()..getAllItemsStream(),
+      child: BlocProvider(
+        create: (context) => AppBloc(RepositoryProvider.of(context)),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+          ),
+          body: BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+            if (state is AppHasDataState) {
+              return Column(
+                children: [
+                  Expanded(
+                      child: Container(
+                          // decoration: BoxDecoration(
+                          //     image: state.backgroundImageURL != null
+                          //         ? DecorationImage(
+                          //             fit: BoxFit.fill,
+                          //             image: NetworkImage(state.backgroundImageURL!))
+                          //         : null),
+                          child: ListView(
+                    children: state.data
+                        .map((item) => BuyItemWidget(
+                            item: item,
+                            onChecked: (String id, bool isChecked) => context
+                                .read<AppBloc>()
+                                .add(UpdateItemEvent(id, isChecked))))
+                        .toList(),
+                  ))),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _inputController,
+                            decoration: const InputDecoration(
+                              labelText: 'Enter new item name',
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          child: const Text('Add'),
+                          onPressed: () {
+                            context
+                                .read<AppBloc>()
+                                .add(AddItemEvent(_inputController.value.text));
+                            _inputController.text = '';
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
+        ),
       ),
     );
   }
