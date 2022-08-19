@@ -5,8 +5,9 @@ abstract class AppEvent {}
 
 class HasDataEvent extends AppEvent {
   final List<Pair<String, BuyItemDB>> data;
+  final String backgroundImageURL;
 
-  HasDataEvent(this.data);
+  HasDataEvent(this.data, this.backgroundImageURL);
 }
 
 class AddItemEvent extends AppEvent {

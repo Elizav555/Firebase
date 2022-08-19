@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../state/app_bloc.dart';
 import '../state/app_events.dart';
 import '../state/app_state.dart';
+import '../storage/storage.dart';
 
 class ListPage extends StatelessWidget {
   ListPage({Key? key, required this.title}) : super(key: key);
@@ -15,10 +16,16 @@ class ListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<ShoppingDB>(
-      create: (_) => ShoppingDBImpl()..getAllItemsStream(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<ShoppingDB>(
+            create: (_) => ShoppingDBImpl()..getAllItemsStream()),
+        RepositoryProvider<ShoppingStorage>(
+            create: (_) => ShoppingStorageImpl()),
+      ],
       child: BlocProvider(
-        create: (context) => AppBloc(RepositoryProvider.of(context)),
+        create: (context) => AppBloc(
+            RepositoryProvider.of(context), RepositoryProvider.of(context)),
         child: Scaffold(
           appBar: AppBar(
             title: Text(title),
@@ -29,21 +36,20 @@ class ListPage extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Container(
-                          // decoration: BoxDecoration(
-                          //     image: state.backgroundImageURL != null
-                          //         ? DecorationImage(
-                          //             fit: BoxFit.fill,
-                          //             image: NetworkImage(state.backgroundImageURL!))
-                          //         : null),
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image:
+                                      NetworkImage(state.backgroundImageURL))),
                           child: ListView(
-                    children: state.data
-                        .map((item) => BuyItemWidget(
-                            item: item,
-                            onChecked: (String id, bool isChecked) => context
-                                .read<AppBloc>()
-                                .add(UpdateItemEvent(id, isChecked))))
-                        .toList(),
-                  ))),
+                            children: state.data
+                                .map((item) => BuyItemWidget(
+                                    item: item,
+                                    onChecked: (String id, bool isChecked) =>
+                                        context.read<AppBloc>().add(
+                                            UpdateItemEvent(id, isChecked))))
+                                .toList(),
+                          ))),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -57,13 +63,14 @@ class ListPage extends StatelessWidget {
                           ),
                         ),
                         ElevatedButton(
+                          onPressed: _inputController.value.text.isEmpty
+                              ? null
+                              : () {
+                                  context.read<AppBloc>().add(AddItemEvent(
+                                      _inputController.value.text));
+                                  _inputController.text = '';
+                                },
                           child: const Text('Add'),
-                          onPressed: () {
-                            context
-                                .read<AppBloc>()
-                                .add(AddItemEvent(_inputController.value.text));
-                            _inputController.text = '';
-                          },
                         ),
                       ],
                     ),

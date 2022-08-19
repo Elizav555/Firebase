@@ -6,6 +6,7 @@ class AppLoadingState extends AppState {}
 
 class AppHasDataState extends AppState {
   final List<BuyItem> data;
+  final String backgroundImageURL;
 
-  AppHasDataState(this.data);
+  AppHasDataState(this.data, this.backgroundImageURL);
 }
