@@ -1,4 +1,5 @@
 import 'package:firebase/model/buy_item.dart';
+import 'package:firebase/storage/storage_interactor.dart';
 
 import '../database/db_interactor.dart';
 
@@ -29,4 +30,11 @@ class AppState {
 
   Future<void> updateItem(String id, bool isChecked) =>
       _dbInteractor.updateBuyItem(id, {"isPurchased": isChecked});
+
+  final _storageInteractor = StorageInteractor();
+
+  Future<String> getBackgroundImageURL() =>
+      _storageInteractor.getBackgroundImage();
+
+  String? backgroundImageURL;
 }

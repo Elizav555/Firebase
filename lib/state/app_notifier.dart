@@ -31,4 +31,11 @@ class AppStateNotifier with ChangeNotifier {
 
   Future<void> updateItem(String id, bool isChecked) =>
       state.updateItem(id, isChecked);
+
+  void getBackgroundImageURL() {
+    state.getBackgroundImageURL().then((value) {
+      state.backgroundImageURL = value;
+      notifyListeners();
+    });
+  }
 }
