@@ -1,5 +1,6 @@
-import 'package:firebase/model/buy_item.dart';
 import 'package:flutter/material.dart';
+
+import '../../domain/model/buy_item.dart';
 
 class BuyItemWidget extends StatelessWidget {
   const BuyItemWidget({Key? key, required this.item, required this.onChecked})

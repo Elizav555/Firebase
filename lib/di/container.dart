@@ -1,18 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/repository/shopping_db.dart';
-import 'package:firebase/repository/shopping_repository.dart';
-import 'package:firebase/repository/storage.dart';
-import 'package:firebase/state/shopping_list/shopping_list_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 
-import '../auth/auth_manager.dart';
-import '../state/auth/auth_bloc.dart';
+import '../data/shopping_db.dart';
+import '../data/shopping_repository.dart';
+import '../data/storage.dart';
+import '../domain/auth/auth_manager.dart';
+import '../domain/shopping_db.dart';
+import '../domain/shopping_repository.dart';
+import '../domain/shopping_storage.dart';
 import '../ui/app.dart';
 import '../ui/pages/auth_page.dart';
 import '../ui/pages/list_page.dart';
+import '../ui/state/auth/auth_bloc.dart';
+import '../ui/state/shopping_list/shopping_list_bloc.dart';
 import '../utils/secret.dart' as secret;
 
 Future<void> setup() async {

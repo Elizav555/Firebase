@@ -1,5 +1,6 @@
-import 'package:firebase/model/buy_item.dart';
 import 'package:firebase/utils/sort_filter_types.dart';
+
+import '../../../domain/model/buy_item.dart';
 
 abstract class ShoppingListEvent {
   FilterType filterType;

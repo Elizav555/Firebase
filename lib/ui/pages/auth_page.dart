@@ -1,10 +1,10 @@
-import 'package:firebase/state/auth/auth_events.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../state/auth/auth_bloc.dart';
-import '../../state/auth/auth_state.dart';
+import '../state/auth/auth_bloc.dart';
+import '../state/auth/auth_events.dart';
+import '../state/auth/auth_state.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key, required this.title, required this.bloc})

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 
-import '../../repository/shopping_repository.dart';
-import '../../utils/sort_filter_types.dart';
+import '../../../domain/shopping_repository.dart';
+import '../../../utils/sort_filter_types.dart';
 import 'shopping_list_events.dart';
 import 'shopping_list_state.dart';
 

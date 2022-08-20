@@ -1,5 +1,5 @@
-import '../../model/buy_item.dart';
-import '../../utils/sort_filter_types.dart';
+import '../../../domain/model/buy_item.dart';
+import '../../../utils/sort_filter_types.dart';
 
 abstract class ShoppingListState {
   FilterType filterType;

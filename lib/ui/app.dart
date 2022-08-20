@@ -1,9 +1,9 @@
-import 'package:firebase/auth/auth_manager.dart';
 import 'package:firebase/ui/pages/auth_page.dart';
 import 'package:firebase/ui/pages/list_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../domain/auth/auth_manager.dart';
 import '../utils/nav_const.dart';
 
 class MyApp extends StatelessWidget {
