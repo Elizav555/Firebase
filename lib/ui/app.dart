@@ -2,6 +2,7 @@ import 'package:firebase/ui/pages/list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../auth/signIn.dart';
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
                       onPressed: () => signIn(context),
                       child: const Text('Login')));
             } else {
-              return ListPage(title: 'Shopping list');
+              return GetIt.I.get<ListPage>();
             }
           }),
     );

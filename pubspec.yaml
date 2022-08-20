@@ -51,6 +51,9 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_bloc: ^8.0.1
   github_sign_in: ^0.0.4
+  get_it: ^7.2.0
+  flutter_webview_plugin:
+    git: https://github.com/nuc134r/flutter_webview_plugin.git
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

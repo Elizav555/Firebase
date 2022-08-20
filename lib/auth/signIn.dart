@@ -25,7 +25,7 @@ Future<UserCredential?> signInNonWeb(BuildContext context) async {
   var result = await gitHubSignIn.signIn(context);
   switch (result.status) {
     case GitHubSignInResultStatus.ok:
-      final credential = GithubAuthProvider.credential(result.token);
+      final credential = GithubAuthProvider.credential(result.token!);
       return await FirebaseAuth.instance.signInWithCredential(credential);
 
     case GitHubSignInResultStatus.cancelled:
@@ -35,5 +35,4 @@ Future<UserCredential?> signInNonWeb(BuildContext context) async {
       }
       return null;
   }
-  return null;
 }

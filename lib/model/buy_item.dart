@@ -1,4 +1,4 @@
-import 'package:firebase/database/buy_item_db.dart';
+import '../repository/buy_item_db.dart';
 
 class BuyItem {
   final String id;
