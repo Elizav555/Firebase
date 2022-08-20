@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'di/container.dart' as di;
 import 'firebase_options.dart';
@@ -10,5 +11,5 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await di.setup();
-  runApp(const MyApp());
+  runApp(GetIt.I.get<MyApp>());
 }

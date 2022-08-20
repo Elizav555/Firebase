@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase/repository/shopping_repository.dart';
-import 'package:firebase/utils/sort_filter_types.dart';
 
+import '../../repository/shopping_repository.dart';
+import '../../utils/sort_filter_types.dart';
 import 'shopping_list_events.dart';
 import 'shopping_list_state.dart';
 

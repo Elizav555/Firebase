@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../state/shopping_list_bloc.dart';
-import '../../state/shopping_list_events.dart';
-import '../../state/shopping_list_state.dart';
+import '../../state/shopping_list/shopping_list_bloc.dart';
+import '../../state/shopping_list/shopping_list_events.dart';
+import '../../state/shopping_list/shopping_list_state.dart';
 import '../../utils/sort_filter_types.dart';
 import '../widgets/buy_item_widget.dart';
 

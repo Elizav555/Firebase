@@ -17,11 +17,17 @@ abstract class ShoppingDB {
 
   Future<List<Pair<String, BuyItemDB>>> filterSortItems(
       FilterType filterType, SortType sortType);
+
+  final FirebaseFirestore _firestore;
+
+  ShoppingDB(this._firestore);
 }
 
 class ShoppingDBImpl extends ShoppingDB {
+  ShoppingDBImpl(super.firestore);
+
   static const _kcollection = 'shopping_list';
-  final _shoppingListCollection = FirebaseFirestore.instance
+  late final CollectionReference<BuyItemDB> _shoppingListCollection = _firestore
       .collection(_kcollection)
       .withConverter<BuyItemDB>(
           fromFirestore: (snapshot, _) => BuyItemDB.fromJSON(snapshot.data()!),
@@ -56,8 +62,7 @@ class ShoppingDBImpl extends ShoppingDB {
   }
 
   @override
-  Future<List<Pair<String, BuyItemDB>>> filterSortItems(
-      FilterType filterType, SortType sortType) {
+  Future<List<Pair<String, BuyItemDB>>> filterSortItems(FilterType filterType, SortType sortType) {
     Query<BuyItemDB>? resultCollection = _shoppingListCollection.orderBy('name',
         descending: sortType == SortType.descending);
     if (filterType != FilterType.none) {

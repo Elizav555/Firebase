@@ -2,10 +2,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 abstract class ShoppingStorage {
   Future<String> getBackgroundImage();
+
+  final FirebaseStorage _storage;
+
+  ShoppingStorage(this._storage);
 }
 
 class ShoppingStorageImpl extends ShoppingStorage {
-  final _storageRef = FirebaseStorage.instance.ref();
+  late final _storageRef = _storage.ref();
+
+  ShoppingStorageImpl(super.storage);
 
   @override
   Future<String> getBackgroundImage() {
