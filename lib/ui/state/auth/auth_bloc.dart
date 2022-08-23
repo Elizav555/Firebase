@@ -1,33 +1,26 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase/domain/auth/auth_repository.dart';
 
-import '../../../domain/auth/auth_manager.dart';
-import '../../../utils/nav_const.dart';
 import 'auth_events.dart';
 import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthManager _authManager;
+  AuthRepository? _authRepository;
 
-  AuthBloc(this._authManager) : super(LoadedState()) {
+  AuthBloc() : super(LoadedState()) {
     on<SignInEvent>(signIn);
+  }
+
+  void init(AuthRepository authRepository) {
+    _authRepository = _authRepository;
   }
 
   Future<void> signIn(SignInEvent event, Emitter<AuthState> emit) async {
     emit(LoadingState());
-    var isSuccess = false;
-    if (kIsWeb) {
-      isSuccess = await _authManager.signInWeb();
-    } else {
-      var result = await _authManager.gitHubSignIn.signIn(event.context);
-      isSuccess = await _authManager.signInNonWeb(result) != null;
-    }
-    isSuccess
-        ? Navigator.pushNamedAndRemoveUntil(
-            event.context, Routes.shoppingList, (_) => false)
-        : emit(LoadedState());
+    await _authRepository?.signIn() == true
+        ? emit(SuccessState())
+        : emit(ErrorState());
   }
 }
