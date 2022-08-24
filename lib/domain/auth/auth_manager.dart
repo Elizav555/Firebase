@@ -1,34 +1,47 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:github_sign_in/github_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthManager {
-  AuthManager(this._firebaseAuth, this.gitHubSignIn, this._githubAuthProvider);
+  AuthManager(this._firebaseAuth, this._githubAuthProvider, this._googleSignIn);
 
   final FirebaseAuth _firebaseAuth;
-  final GitHubSignIn gitHubSignIn;
   final GithubAuthProvider _githubAuthProvider;
+  final GoogleSignIn _googleSignIn;
 
   Stream<User?> getUserStream() => _firebaseAuth.userChanges();
 
-  Future<bool> signInWeb() async {
-    var res = await _firebaseAuth.signInWithPopup(_githubAuthProvider);
-    return res.user != null;
+  Future<bool> signIn() async {
+    UserCredential? credential;
+    if (kIsWeb) {
+      credential = await _signInWeb();
+    } else {
+      credential = await _signInNonWeb();
+    }
+    return credential != null;
   }
 
-  Future<UserCredential?> signInNonWeb(GitHubSignInResult result) async {
-    switch (result.status) {
-      case GitHubSignInResultStatus.ok:
-        final credential = GithubAuthProvider.credential(result.token!);
-        return await FirebaseAuth.instance.signInWithCredential(credential);
-
-      case GitHubSignInResultStatus.cancelled:
-      case GitHubSignInResultStatus.failed:
-        if (kDebugMode) {
-          print(result.errorMessage);
-        }
-        return null;
+  Future<UserCredential?> _signInWeb() async {
+    try {
+      return await _firebaseAuth.signInWithPopup(_githubAuthProvider);
+    } catch (error) {
+      return null;
     }
+  }
+
+  Future<UserCredential?> _signInNonWeb() async {
+    final account = await _googleSignIn.signIn();
+    if (account != null) {
+      try {
+        final googleAuth = await account.authentication;
+        final credential = GoogleAuthProvider.credential(
+            idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+        return await _firebaseAuth.signInWithCredential(credential);
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
   }
 
   bool get isLoggedIn => _firebaseAuth.currentUser != null;
